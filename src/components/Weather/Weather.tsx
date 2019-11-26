@@ -1,18 +1,18 @@
 import {useEffect, useState} from "react";
 
 export interface Weather {
-    name: string;
-    weather: Array<{
-        description: string,
-        icon: string
-    }>
-    main: {
-        temp : number,
-        humidity: number
-    };
-    wind: {
-        speed: number
-    };
+        name: string;
+        weather: Array<{
+            description: string,
+            icon: string
+        }>
+        main: {
+            temp: number,
+            humidity: number
+        };
+        wind: {
+            speed: number
+        };
 }
 
 export const useWeather = (location: string): [boolean, Weather | null, string | null] => {

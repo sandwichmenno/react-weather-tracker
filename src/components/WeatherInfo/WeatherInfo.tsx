@@ -6,10 +6,11 @@ import styled from "styled-components";
 const Wrapper = styled.div`
     width: 600px;
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
-    margin: 50px auto;
+    margin: 20px auto;
     padding: 20px 0;
     box-sizing: border-box;
     padding: 20px;
+    background: #fff;
 `;
 
 const City = styled.div`
@@ -44,15 +45,26 @@ const Details = styled.div`
     color: rgba(0, 0, 0, 0.54);
 `;
 
-const WeatherInfo: React.FC<Weather> = (weather: Weather) => {
-    const {name, weather: [{ description, icon }], main: { temp, humidity }, wind: {speed}} = weather;
+interface WeatherObject {
+    weather: {
+        name: string,
+        description: string,
+        icon: string,
+        temp: number,
+        humidity: number,
+        speed: number
+    }
+}
+
+const WeatherInfo: React.FC<WeatherObject> = (weather) => {
+    const {name, description, icon, temp, humidity, speed} = weather.weather;
 
     return (
         <Wrapper>
             <City>{name}</City>
             <Description>{description}</Description>
             <Temperature>{temp}°C <img width='150' src={"http://openweathermap.org/img/wn/" + icon + "@2x.png"} /></Temperature>
-            <Details>{speed} km/h wind {humidity}% luchtvochtigheid</Details>
+            <Details>{speed} km/h wind {humidity}% humidity</Details>
         </Wrapper>
     );
 }
