@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useWeather, Weather} from '../Weather/Weather';
 import styled from "styled-components";
@@ -44,27 +44,15 @@ const Details = styled.div`
     color: rgba(0, 0, 0, 0.54);
 `;
 
-const WeatherInfo: React.FC = () => {
-    const [isLoading, result, error] = useWeather("Kortenhoef");
-
-    if (result) {
-        const {city, description, icon, humidity, temp, wind} = result;
-    }
-
-    if (isLoading) {
-        console.log("Data is loading...");
-    }
-
-    if(error) {
-        console.log("Error loading data: " + error);
-    }
+const WeatherInfo: React.FC<Weather> = (weather: Weather) => {
+    const {name, weather: [{ description, icon }], main: { temp, humidity }, wind: {speed}} = weather;
 
     return (
         <Wrapper>
-            <City>{city}</City>
+            <City>{name}</City>
             <Description>{description}</Description>
-            <Temperature>{temp}°C <img width='150' src={icon} /></Temperature>
-            <Details>{wind} km/h wind {humidity}% luchtvochtigheid</Details>
+            <Temperature>{temp}°C <img width='150' src={"http://openweathermap.org/img/wn/" + icon + "@2x.png"} /></Temperature>
+            <Details>{speed} km/h wind {humidity}% luchtvochtigheid</Details>
         </Wrapper>
     );
 }

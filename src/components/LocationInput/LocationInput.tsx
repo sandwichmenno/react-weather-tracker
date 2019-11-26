@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import {useWeather} from "../Weather/Weather";
+import {Weather} from "../Weather/Weather";
 
 const Input = styled.input`
     
 `;
 
-const LocationInput: React.FC = () => {
-    const [location, setLocation] = useState('Kortenhoef');
+interface LocationInputProps {
+    onUpdateLocation: (location: string) => void;
+}
+
+const LocationInput: React.FC<LocationInputProps> = (onUpdateLocation: LocationInputProps) => {
+    const [location, setLocation] = useState<string>('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocation( e.target.value );
-    }
-
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div>
             <Input type="text" placeholder="Voer een locatie in"
                    onChange={handleChange} />
-            <button type="submit">Opvragen</button>
-        </form>
+            <button onClick={() => onUpdateLocation(location)}>Opvragen</button>
+        </div>
     );
 }
 

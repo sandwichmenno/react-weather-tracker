@@ -1,35 +1,38 @@
 import {useEffect, useState} from "react";
 
 export interface Weather {
-    city: string;
-    description: string;
-    icon: string;
-    temp: number;
-    humidity: number;
-    wind: number;
+    name: string;
+    weather: Array<{
+        description: string,
+        icon: string
+    }>
+    main: {
+        temp : number,
+        humidity: number
+    };
+    wind: {
+        speed: number
+    };
 }
 
-export const useWeather = (location: string) => {
+export const useWeather = (location: string): [boolean, Weather | null, string | null] => {
     const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?q=';
     const suffix = "&appid=ee95f4ab36df2399c08048bb4b91dff0&lang=nl&units=metric";
 
-    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [result, setResult] = useState<Weather | null>(null);
-    const [error, setError] = useState<String | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const res = await fetch(baseUrl + location + suffix);
-                const json = await res.json();
-                setResult(json);
-                setIsLoading(false);
-            } catch (error) {
-                setError(error);
-            }
+        const fetchData = async () : Promise<Weather> => {
+            const res = await fetch(baseUrl + location + suffix);
+            return await res.json();
         };
-        fetchData();
+
+        fetchData()
+            .then(setResult)
+            .then(() => setIsLoading(false))
+            .catch(setError);
     }, [location]);
 
     return [isLoading, result, error];

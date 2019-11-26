@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
-import WeatherInfo from './components/WeatherInfo/WeatherInfo';
 import styled, {createGlobalStyle} from "styled-components";
-//import LocationInput from "./components/LocationInput/LocationInput";
+
+import WeatherMain from "./components/WeatherMain/WeatherMain";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -15,7 +15,8 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <GlobalStyles />
-            <WeatherInfo/>
+
+            <WeatherMain/>
         </div>
     );
 }
